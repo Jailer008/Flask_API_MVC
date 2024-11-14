@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Profile Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+    <div class="card">
+
+        <!-- Hero header -->
+        <div class="background">
+            <img class="background-img" src="">
+        </div>
+
+        <!-- User information -->
+        <div class="content">
+            <div class="profile">
+                <img class="profile-img" src="https://picsum.photos/480/382/?random" alt="Profile Image">
+            </div>
+            <div class="header">
+                <h2 class="name">{{ user_name }}</h2>
+                <p class="location">{{ id }}</p>
+            </div>
+            <div class="info">
+                <p class="description">I do not know whether you have ever heard it described in that way: it is my personal description of the problem.</p>
+            </div>
+            <div class="labels">
+                <div class="label">
+                    <p>Phone:</p>
+                    <h2 class="phone">{{ phone }}</h2>
+                </div>
+                <div class="label">
+                    <p>Cell:</p>
+                    <h2 class="cell">{{ cell }}</h2>
+                </div>
+                <div class="label">
+                    <p>Email:</p>
+                    <h2 class="email">{{ email }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
