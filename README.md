@@ -19,7 +19,7 @@ Para ejecutar esta API, asegúrate de tener lo siguiente instalado:
 
 ## Instalación
 
-1. **Clona el repositorio X**:
+1. **Clona el repositorio Xx**:
    ```bash
    git clone https://github.com/tu_usuario/tu_proyecto.git
    cd tu_proyecto
