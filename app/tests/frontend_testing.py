@@ -37,4 +37,4 @@ def test_user_name_display(user_id,name):
 
 
 # Ejecutar la prueba con un ID de usuario existente
-test_user_name_display(101010,"Jailer Fonseca Herrera")  # Reemplaza 1 con un ID de usuario válido
+test_user_name_display(2200,"Leticia Herrera Estrada")  # Reemplaza 1 con un ID de usuario válido
