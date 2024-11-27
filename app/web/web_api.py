@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 import requests
+import os
+import signal
 
 app = Flask(__name__)
 
@@ -25,6 +27,10 @@ def get_user_data(user_id):
     except requests.exceptions.RequestException as e:
         return render_template('error.html', error_message="No se pudo conectar a la API REST"), 500
 
+@app.route('/stop_server',methods = ['GET'])
+def stop_server():
+    os.kill(os.getpid(),signal.SIGINT)
+    return 'Server stopped'
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5001)

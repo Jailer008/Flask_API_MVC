@@ -1,5 +1,9 @@
+from crypt import methods
+
 from flask import Blueprint, request, jsonify
 from app.services.user_service import handle_get_user, handle_save_user, handle_update_user, handle_delete_user
+import os
+import signal
 
 user_bp = Blueprint('user_bp', __name__)
 
@@ -46,4 +50,11 @@ def get_data(user_id):
             return jsonify({"status": "ok", "data": result}), 200
         else:
             return jsonify({"status": "error", "reason": "no such id"}), 500
+
+@user_bp.route('/stop_server',methods = ['GET'])
+def stop_server():
+    os.kill(os.getpid(),signal.SIGINT)
+    return 'Server stopped'
+
+
 

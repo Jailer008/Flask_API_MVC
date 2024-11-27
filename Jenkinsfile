@@ -4,7 +4,7 @@ pipeline {
         skipDefaultCheckout(true) // Skip default checkout if using explicit `checkout` step
     }
     triggers {
-        pollSCM('* * * * *') // Poll every 5 minutes
+        pollSCM('* * * * *') // Poll every 1 minutes
     }
     stages {
         stage('Checkout') {
