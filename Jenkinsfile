@@ -45,7 +45,7 @@ pipeline {
         stage('Run Frontend test') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/web/"){
+                dir("${env.WORKSPACE}/app/tests/"){
                     sh "python3 frontend_testing.py > frontend_testing.log 2>&1 &"
                 }
             }
@@ -53,7 +53,7 @@ pipeline {
         stage('Run Combine test') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/web/"){
+                dir("${env.WORKSPACE}/app/tests/"){
                     sh "python3 combiend_testing.py > combiend_testing.log 2>&1 &"
                 }
             }
