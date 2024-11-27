@@ -36,17 +36,26 @@ pipeline {
         }
         stage('Run Backend test') {
             steps {
-                echo "Hello ...."
+                echo "Starting frontend server ...."
+                dir("${env.WORKSPACE}/app/tests/"){
+                    sh "python3 backend_testing.py > backend_testing.log 2>&1 &"
+                }
             }
         }
         stage('Run Frontend test') {
             steps {
-                echo "Hello ...."
+                echo "Starting frontend server ...."
+                dir("${env.WORKSPACE}/app/web/"){
+                    sh "python3 frontend_testing.py > frontend_testing.log 2>&1 &"
+                }
             }
         }
         stage('Run Combine test') {
             steps {
-                echo "Hello ...."
+                echo "Starting frontend server ...."
+                dir("${env.WORKSPACE}/app/web/"){
+                    sh "python3 combiend_testing.py > combiend_testing.log 2>&1 &"
+                }
             }
         }
         stage('Run clean module') {
