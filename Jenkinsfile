@@ -12,7 +12,7 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/Jailer008/Flask_API_MVC',
+                        url: 'https://github.com/Jailer008/Flask_API_MVC'
                     ]]
                 ]
             }
