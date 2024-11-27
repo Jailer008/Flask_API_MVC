@@ -21,14 +21,17 @@ pipeline {
         }
         stage('Run Backend server') {
             steps {
-                echo "Starting server ...."
-                echo "El espacio de trabajo es: ${env.WORKSPACE}"
-                sh "nohup python3 run.py > server.log 2>&1 &"
+                echo "Starting backend server ...."
+                sh "nohup python3 run.py > server_backend.log 2>&1 &"
             }
         }
          stage('Run Frontend server') {
             steps {
-                echo "Hello ...."
+                echo "Starting backend server ...."
+                dir("${env.WORKSPACE}/app/web/"){
+                    sh "nohup python3 web_api.py > server_frontend.log 2>&1 &"
+                }
+
             }
         }
         stage('Run Backend test') {
