@@ -1,6 +1,7 @@
 pipeline {
     agent any
     options {
+        buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '20'))
         skipDefaultCheckout(true) // Skip default checkout if using explicit `checkout` step
     }
     triggers {
@@ -18,7 +19,33 @@ pipeline {
                 ])
             }
         }
-        stage('Run Python') {
+        stage('Run Backend server') {
+            steps {
+                echo "Starting server ...."
+                echo "El espacio de trabajo es: ${env.WORKSPACE}"
+            }
+        }
+         stage('Run Frontend server') {
+            steps {
+                echo "Hello ...."
+            }
+        }
+        stage('Run Backend test') {
+            steps {
+                echo "Hello ...."
+            }
+        }
+        stage('Run Frontend test') {
+            steps {
+                echo "Hello ...."
+            }
+        }
+        stage('Run Combine test') {
+            steps {
+                echo "Hello ...."
+            }
+        }
+        stage('Run clean module') {
             steps {
                 echo "Hello ...."
             }
