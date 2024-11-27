@@ -27,7 +27,7 @@ pipeline {
         }
          stage('Run Frontend server') {
             steps {
-                echo "Starting backend server ...."
+                echo "Starting frontend server ...."
                 dir("${env.WORKSPACE}/app/web/"){
                     sh "nohup python3 web_api.py > server_frontend.log 2>&1 &"
                 }
