@@ -1,19 +1,25 @@
 pipeline {
     agent any
+    properties([
+        pipelineTriggers([
+            pollSCM('*/5 * * * *')
+        ])
+    ])
     stages {
-        stage('checkout') {
+        stage('Checkout') {
             steps {
-                script {
-                    properties([pipelineTriggers([pollSCM('* * * * *')])])
-                }
-                git 'https://github.com/Jailer008/Flask_API_MVC'
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/Jailer008/Flask_API_MVC',
+                    ]]
+                ]
             }
         }
-        stage('run python') {
+        stage('Run Python') {
             steps {
-                script {
-                    echo 'Hello'
-                }
+                sh 'python3 script.py'
             }
         }
     }
