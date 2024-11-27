@@ -1,14 +1,11 @@
 pipeline {
     agent any
-    properties([
-        pipelineTriggers([
-            pollSCM('* * * * *')
-        ])
-    ])
-    options([
-        timestamps(),    // Adds timestamps to log output
-        timeout(time: 1, unit: 'MINUTES') // Sets a timeout for the pipeline
-    ])
+    options {
+        skipDefaultCheckout(true) // Skip default checkout if using explicit `checkout` step
+    }
+    triggers {
+        pollSCM('* * * * *') // Poll every 5 minutes
+    }
     stages {
         stage('Checkout') {
             steps {
