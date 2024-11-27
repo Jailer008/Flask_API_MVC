@@ -23,6 +23,7 @@ pipeline {
             steps {
                 echo "Starting server ...."
                 echo "El espacio de trabajo es: ${env.WORKSPACE}"
+                sh "nohup python3 run.py > server.log 2>&1 &"
             }
         }
          stage('Run Frontend server') {
