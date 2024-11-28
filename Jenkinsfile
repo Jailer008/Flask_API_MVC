@@ -19,6 +19,17 @@ pipeline {
                 ])
             }
         }
+
+        stage('Verify WebDriver') {
+            steps {
+                sh '''
+                    echo "Verifying WebDriver installation..."
+                    which chromedriver || echo "Chromedriver not found!"
+                    chromedriver --version || echo "Chromedriver version not accessible!"
+                '''
+            }
+        }
+
         stage('Setup virtual environment'){
             steps{
                 echo "Setting up virtual environment ...."
