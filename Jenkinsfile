@@ -42,13 +42,11 @@ pipeline {
          stage('Run Frontend server') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/web/"){
-                    sh'''
-                        . .venv/bin/activate
-                        nohup   python3 web_api.py > server_frontend.log 2>&1 &
-                    '''
-                }
-
+                sh'''
+                    . .venv/bin/activate
+                    cd app/web/
+                    nohup   python3 web_api.py > server_frontend.log 2>&1 &
+                '''
             }
         }
         stage('Run Backend test') {
