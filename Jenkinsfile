@@ -24,6 +24,7 @@ pipeline {
                 echo "Setting up virtual environment ...."
                 sh '''
                     python3 -m venv .venv
+                    . .venv/bin/activate
                     pip install -r requirements.txt
                     export PYTHONPATH=$PYTHONPATH:$(pwd)
                 '''
