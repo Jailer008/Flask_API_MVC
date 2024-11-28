@@ -33,7 +33,7 @@ pipeline {
             steps {
                 echo "Starting backend server ...."
                 sh'''
-                    source .venv/bin/activate
+                    . .venv/bin/activate
                     nohup python3 run.py > server_backend.log 2>&1 &
                 '''
 
