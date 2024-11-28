@@ -55,7 +55,10 @@ pipeline {
             steps {
                 echo "Starting frontend server ...."
                 dir("${env.WORKSPACE}/app/tests/"){
-                    sh "python3 backend_testing.py > backend_testing.log 2>&1 &"
+                    sh'''
+                        source .venv/bin/activate
+                        python3 backend_testing.py > frontend_testing.log 2>&1 &
+                    '''
                 }
             }
         }
@@ -63,7 +66,11 @@ pipeline {
             steps {
                 echo "Starting frontend server ...."
                 dir("${env.WORKSPACE}/app/tests/"){
-                    sh "python3 frontend_testing.py > frontend_testing.log 2>&1 &"
+                    sh'''
+                        source .venv/bin/activate
+                        python3 frontend_testing.py > frontend_testing.log 2>&1 &
+                    '''
+
                 }
             }
         }
