@@ -57,7 +57,7 @@ pipeline {
                     sh'''
                         . .venv/bin/activate
                         cd app/tests/
-                        python3 backend_testing.py > frontend_testing.log 2>&1 &
+                        python3 backend_testing.py > Backend_testing.log 2>&1 &
                     '''
             }
         }
