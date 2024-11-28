@@ -32,7 +32,11 @@ pipeline {
         stage('Run Backend server') {
             steps {
                 echo "Starting backend server ...."
-                sh "nohup python3 run.py > server_backend.log 2>&1 &"
+                sh'''
+                    source .venv/bin/activate
+                    nohup python3 run.py > server_backend.log 2>&1 &"
+                '''
+
             }
         }
          stage('Run Frontend server') {
