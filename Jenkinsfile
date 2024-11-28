@@ -19,6 +19,16 @@ pipeline {
                 ])
             }
         }
+        stage('Setup virtual environment'){
+            steps{
+                echo "Setting up virtual environment ...."
+                sh '''
+                    python3 -m venv .venv
+                    pip install -r requirements.txt
+                    export PYTHONPATH=$PYTHONPATH:$(pwd)
+                '''
+            }
+        }
         stage('Run Backend server') {
             steps {
                 echo "Starting backend server ...."
