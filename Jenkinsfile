@@ -34,7 +34,7 @@ pipeline {
                 echo "Starting backend server ...."
                 sh'''
                     source .venv/bin/activate
-                    nohup python3 run.py > server_backend.log 2>&1 &"
+                    nohup python3 run.py > server_backend.log 2>&1 &
                 '''
 
             }
@@ -43,7 +43,10 @@ pipeline {
             steps {
                 echo "Starting frontend server ...."
                 dir("${env.WORKSPACE}/app/web/"){
-                    sh "nohup python3 web_api.py > server_frontend.log 2>&1 &"
+                    sh'''
+                        source .venv/bin/activate
+                        nohup   python3 web_api.py > server_frontend.log 2>&1 &
+                    '''
                 }
 
             }
