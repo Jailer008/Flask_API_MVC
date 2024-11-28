@@ -57,6 +57,7 @@ pipeline {
                     sh'''
                         . .venv/bin/activate
                         cd app/tests/
+                        export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                         python3 backend_testing.py > Backend_testing.log 2>&1 &
                     '''
             }
