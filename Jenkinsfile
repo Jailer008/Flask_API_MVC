@@ -54,24 +54,21 @@ pipeline {
         stage('Run Backend test') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/tests/"){
                     sh'''
                         source .venv/bin/activate
+                        cd app/tests/
                         python3 backend_testing.py > frontend_testing.log 2>&1 &
                     '''
-                }
             }
         }
         stage('Run Frontend test') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/tests/"){
-                    sh'''
-                        source .venv/bin/activate
-                        python3 frontend_testing.py > frontend_testing.log 2>&1 &
-                    '''
-
-                }
+                sh'''
+                    source .venv/bin/activate
+                    cd app/tests/
+                    python3 frontend_testing.py > frontend_testing.log 2>&1 &
+                '''
             }
         }
         stage('Run Combine test') {
