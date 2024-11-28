@@ -2,10 +2,10 @@ pipeline {
     agent any
     options {
         buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '20'))
-        skipDefaultCheckout(true) // Skip default checkout if using explicit `checkout` step
+        skipDefaultCheckout(true)
     }
     triggers {
-        pollSCM('* * * * *') // Poll every 1 minutes
+        pollSCM('* * * * *')
     }
     stages {
         stage('Checkout') {
@@ -24,8 +24,9 @@ pipeline {
                 echo "Setting up virtual environment ...."
                 sh '''
                     python3 -m venv .venv
+                    . .venv/bin/activate
                     pip install -r requirements.txt
-                    export PYTHONPATH=$PYTHONPATH:$(pwd)
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                 '''
             }
         }
@@ -34,54 +35,60 @@ pipeline {
                 echo "Starting backend server ...."
                 sh'''
                     source .venv/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                     nohup python3 run.py > server_backend.log 2>&1 &
                 '''
-
             }
         }
-         stage('Run Frontend server') {
+        stage('Run Frontend server') {
             steps {
                 echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/web/"){
+                dir("${env.WORKSPACE}/app/web/") {
                     sh'''
                         source .venv/bin/activate
-                        nohup   python3 web_api.py > server_frontend.log 2>&1 &
+                        export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                        nohup python3 web_api.py > server_frontend.log 2>&1 &
                     '''
                 }
-
             }
         }
         stage('Run Backend test') {
             steps {
-                echo "Starting frontend server ...."
-                    sh'''
-                        source .venv/bin/activate
-                        cd app/tests/
-                        python3 backend_testing.py > frontend_testing.log 2>&1 &
-                    '''
+                echo "Running backend tests ...."
+                sh '''
+                    source .venv/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                    cd app/tests/
+                    python3 backend_testing.py > backend_testing.log 2>&1
+                '''
             }
         }
         stage('Run Frontend test') {
             steps {
-                echo "Starting frontend server ...."
-                sh'''
+                echo "Running frontend tests ...."
+                sh '''
                     source .venv/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                     cd app/tests/
-                    python3 frontend_testing.py > frontend_testing.log 2>&1 &
+                    python3 frontend_testing.py > frontend_testing.log 2>&1
                 '''
             }
         }
         stage('Run Combine test') {
             steps {
-                echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/tests/"){
-                    sh "python3 combiend_testing.py > combiend_testing.log 2>&1 &"
+                echo "Running combined tests ...."
+                dir("${env.WORKSPACE}/app/tests/") {
+                    sh '''
+                        source .venv/bin/activate
+                        export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                        python3 combiend_testing.py > combiend_testing.log 2>&1
+                    '''
                 }
             }
         }
         stage('Run clean module') {
             steps {
-                echo "Hello ...."
+                echo "Cleaning up ...."
             }
         }
     }
