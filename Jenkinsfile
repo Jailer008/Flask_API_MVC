@@ -47,13 +47,14 @@ pipeline {
                 sh'''
                     . .venv/bin/activate
                     cd app/web/
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                     nohup   python3 web_api.py > server_frontend.log 2>&1 &
                 '''
             }
         }
-        stage('Run Backend test') {
+        stage('Run Backend Test') {
             steps {
-                echo "Starting frontend server ...."
+                echo "Starting Backend Test ...."
                     sh'''
                         . .venv/bin/activate
                         cd app/tests/
@@ -62,22 +63,26 @@ pipeline {
                     '''
             }
         }
-        stage('Run Frontend test') {
+        stage('Run Frontend Test') {
             steps {
-                echo "Starting frontend server ...."
+                echo "Starting Frontend Test ...."
                 sh'''
                     . .venv/bin/activate
                     cd app/tests/
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                     python3 frontend_testing.py > frontend_testing.log 2>&1 &
                 '''
             }
         }
         stage('Run Combine test') {
             steps {
-                echo "Starting frontend server ...."
-                dir("${env.WORKSPACE}/app/tests/"){
-                    sh "python3 combiend_testing.py > combiend_testing.log 2>&1 &"
-                }
+                echo "Starting Combine test ...."
+                sh'''
+                    . .venv/bin/activate
+                    cd app/tests/
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                    python3 combiend_testing.py > combiend_testing.log 2>&1 &
+                '''
             }
         }
         stage('Run clean module') {
