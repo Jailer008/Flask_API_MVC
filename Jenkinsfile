@@ -44,7 +44,7 @@ pipeline {
                 echo "Starting frontend server ...."
                 dir("${env.WORKSPACE}/app/web/"){
                     sh'''
-                        source .venv/bin/activate
+                        . .venv/bin/activate
                         nohup   python3 web_api.py > server_frontend.log 2>&1 &
                     '''
                 }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 echo "Starting frontend server ...."
                     sh'''
-                        source .venv/bin/activate
+                        . .venv/bin/activate
                         cd app/tests/
                         python3 backend_testing.py > frontend_testing.log 2>&1 &
                     '''
@@ -65,7 +65,7 @@ pipeline {
             steps {
                 echo "Starting frontend server ...."
                 sh'''
-                    source .venv/bin/activate
+                    . .venv/bin/activate
                     cd app/tests/
                     python3 frontend_testing.py > frontend_testing.log 2>&1 &
                 '''
