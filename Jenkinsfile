@@ -34,6 +34,7 @@ pipeline {
                 echo "Starting backend server ...."
                 sh'''
                     . .venv/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
                     nohup python3 run.py > server_backend.log 2>&1 &
                 '''
 
