@@ -1,5 +1,4 @@
 import requests
-import time
 from app.config import Config
 from app.db import get_db_connection
 from selenium import webdriver
@@ -7,22 +6,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
-
-def wait_for_server(url, timeout=30):
-    """
-    Verifica si el servidor está disponible dentro de un tiempo máximo (timeout).
-    """
-    start_time = time.time()
-    while time.time() - start_time < timeout:
-        try:
-            response = requests.get(url)
-            if response.status_code == 200:
-                print(f"El servidor en {url} está listo.")
-                return True
-        except requests.ConnectionError:
-            pass  # Continúa intentando si no está disponible aún
-        time.sleep(1)  # Espera un segundo antes de intentar nuevamente
-    raise Exception(f"El servidor en {url} no está disponible después de {timeout} segundos.")
 
 def combined_testing(id_user, name_user):
 
@@ -32,15 +15,12 @@ def combined_testing(id_user, name_user):
     chrome_options.add_argument("--no-sandbox")  # Necesario en algunos entornos
     chrome_options.add_argument("--disable-dev-shm-usage")  # Manejo de memoria compartida
 
+
     # URL y cabeceras
     api_url = f"http://127.0.0.1:5000/users/{id_user}"
     web_url = f"http://127.0.0.1:5001/users/get_user_data/{id_user}"
     headers = {"Content-Type": "application/json"}
     data = {"user_name": name_user}
-
-    # Esperar a que los servidores estén disponibles
-    wait_for_server("http://127.0.0.1:5000")
-    wait_for_server("http://127.0.0.1:5001")
 
     # Paso 1: Enviar los datos de usuario con POST a la API REST
     response = requests.post(api_url, headers=headers, json=data)
@@ -73,7 +53,7 @@ def combined_testing(id_user, name_user):
     driver.get(web_url)
 
     try:
-        wait = WebDriverWait(driver, 10)  # Tiempo máximo de espera: 10 segundos
+        wait = WebDriverWait(driver, 2)  # Tiempo máximo de espera: 10 segundos
         user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
 
         if user_name_element.text != name_user:
@@ -88,4 +68,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("1006", "ZCoin6")
+combined_testing("1005", "ZCoin1")
+
+
