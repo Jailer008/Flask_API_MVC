@@ -1,9 +1,7 @@
-import time
-from time import sleep
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def test_user_name_display(user_id,name):
@@ -18,10 +16,9 @@ def test_user_name_display(user_id,name):
         # Navegar a la URL
         driver.get(url)
 
-        # Esperar a que el elemento del nombre de usuario aparezca en la página
-        user_name_element = driver.find_element(By.CLASS_NAME,
-                                                'name')  # Usa el localizador adecuado, como el class name
-        time.sleep(60)
+        wait = WebDriverWait(driver, 10)  # Tiempo máximo de espera: 10 segundos
+        user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
+
         # Verificar que el elemento se muestra
         if user_name_element.is_displayed():
             print("El nombre de usuario está presente en la interfaz.")
