@@ -53,17 +53,20 @@ def combined_testing(id_user, name_user):
     driver.get(web_url)
 
     try:
-        wait = WebDriverWait(driver, 4)  # Tiempo máximo de espera: 10 segundos
-        user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
+        user_name_element = driver.find_element(By.CLASS_NAME, 'name')
 
         if user_name_element.text != name_user:
             raise Exception("Test failed: El nombre de usuario en la interfaz web no coincide.")
         print("Test passed: Todos los datos son correctos.")
+
+    except Exception as e:
+        raise Exception(f"Selenium failed: {e}")
+
     finally:
         driver.quit()
 
 
 # Prueba del script
-combined_testing("1000", "ZCoin1")
+combined_testing("1003", "ZCoin1")
 
 
