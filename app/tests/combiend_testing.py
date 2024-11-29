@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from app.config import Config
 from app.db import get_db_connection
-from app.tests import get_config
+
 
 def combined_testing(id_user, name_user):
     # URL y cabeceras
@@ -53,6 +53,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("4444", "ZCoin2")
+combined_testing("2222", "ZCoin")
 
 
