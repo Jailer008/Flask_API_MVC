@@ -37,8 +37,8 @@ pipeline {
                 sh '''
                 # Extraer y mover al PATH
                 unzip chromedriver_linux64.zip
-                chmod +x chromedriver
-                mv chromedriver /usr/local/bin/
+                mv chromedriver /usr/local/bin/chromedriver
+                chmod +x /usr/local/bin/chromedriver
                 '''
             }
         }
