@@ -53,7 +53,7 @@ def combined_testing(id_user, name_user):
     driver.get(web_url)
 
     try:
-        wait = WebDriverWait(driver, 2)  # Tiempo máximo de espera: 10 segundos
+        wait = WebDriverWait(driver, 4)  # Tiempo máximo de espera: 10 segundos
         user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
 
         if user_name_element.text != name_user:
