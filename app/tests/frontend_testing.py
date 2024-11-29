@@ -3,18 +3,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 
 def test_user_name_display(user_id,name):
-
-    chrome_options = Options()
+    chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")  # Ejecuta en modo headless
     chrome_options.add_argument("--disable-gpu")  # Optimización para ciertos sistemas
     chrome_options.add_argument("--no-sandbox")  # Necesario en algunos entornos
     chrome_options.add_argument("--disable-dev-shm-usage")  # Manejo de memoria compartida
-
+    service = Service("/home/jailer/.jenkins/workspace/HereWeGo/bin/chromedriver")
     # Configurar el WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options,service=service)
 
     try:
         # URL del usuario en la interfaz web

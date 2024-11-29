@@ -5,16 +5,16 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 
 def combined_testing(id_user, name_user):
 
-    chrome_options = Options()
+    chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")  # Ejecuta en modo headless
     chrome_options.add_argument("--disable-gpu")  # Optimización para ciertos sistemas
     chrome_options.add_argument("--no-sandbox")  # Necesario en algunos entornos
     chrome_options.add_argument("--disable-dev-shm-usage")  # Manejo de memoria compartida
-
+    service = Service("/home/jailer/.jenkins/workspace/HereWeGo/bin/chromedriver")
 
     # URL y cabeceras
     api_url = f"http://127.0.0.1:5000/users/{id_user}"
@@ -49,7 +49,7 @@ def combined_testing(id_user, name_user):
         connection.close()
 
     # Paso 4: Iniciar sesión de Selenium WebDriver y verificar el nombre de usuario en la interfaz web
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options,service=service)
     driver.get(web_url)
 
     try:
@@ -68,6 +68,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("1777", "ZCoin99")
+combined_testing("19987", "ZCoin99")
 
 

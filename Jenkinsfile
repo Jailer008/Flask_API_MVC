@@ -36,9 +36,9 @@ pipeline {
             steps {
                 sh '''
                 # Extraer y mover al PATH
-                    unzip chromedriver_linux64.zip
+                    unzip chromedriver-linux64.zip
                     mkdir -p $WORKSPACE/bin
-                    mv chromedriver $WORKSPACE/bin/
+                    mv chromedriver-linux64/chromedriver $WORKSPACE/bin/
                     chmod +x $WORKSPACE/bin/chromedriver
                     export PATH=$WORKSPACE/bin:$PATH
                 '''
