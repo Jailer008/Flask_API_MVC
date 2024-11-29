@@ -2,11 +2,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 
 def test_user_name_display(user_id,name):
+
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Ejecuta en modo headless
+    chrome_options.add_argument("--disable-gpu")  # Optimización para ciertos sistemas
+    chrome_options.add_argument("--no-sandbox")  # Necesario en algunos entornos
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Manejo de memoria compartida
+
     # Configurar el WebDriver
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # URL del usuario en la interfaz web
@@ -16,7 +24,7 @@ def test_user_name_display(user_id,name):
         # Navegar a la URL
         driver.get(url)
 
-        wait = WebDriverWait(driver, 10)  # Tiempo máximo de espera: 10 segundos
+        wait = WebDriverWait(driver, 2)  # Tiempo máximo de espera: 10 segundos
         user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
 
         # Verificar que el elemento se muestra

@@ -3,9 +3,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from app.config import Config
 from app.db import get_db_connection
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 def combined_testing(id_user, name_user):
+
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Ejecuta en modo headless
+    chrome_options.add_argument("--disable-gpu")  # Optimización para ciertos sistemas
+    chrome_options.add_argument("--no-sandbox")  # Necesario en algunos entornos
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Manejo de memoria compartida
+
+
     # URL y cabeceras
     api_url = f"http://127.0.0.1:5000/users/{id_user}"
     web_url = f"http://127.0.0.1:5001/users/get_user_data/{id_user}"
@@ -39,12 +49,13 @@ def combined_testing(id_user, name_user):
         connection.close()
 
     # Paso 4: Iniciar sesión de Selenium WebDriver y verificar el nombre de usuario en la interfaz web
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(web_url)
 
     try:
-        # Localizar el elemento que muestra el nombre de usuario
-        user_name_element = driver.find_element(By.CLASS_NAME, "name")  # Asegúrate de que la clase coincide con el HTML
+        wait = WebDriverWait(driver, 2)  # Tiempo máximo de espera: 10 segundos
+        user_name_element = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'name')))
+
         if user_name_element.text != name_user:
             raise Exception("Test failed: El nombre de usuario en la interfaz web no coincide.")
         print("Test passed: Todos los datos son correctos.")
@@ -53,6 +64,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("2999", "ZCoin10")
+combined_testing("1000", "ZCoin1")
 
 

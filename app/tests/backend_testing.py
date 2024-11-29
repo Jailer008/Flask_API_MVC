@@ -47,5 +47,5 @@ def test_new_user(id_user, name_user):
         print(f"Error al consultar la base de datos: {e}")
 
 # Prueba de la función
-test_new_user("1234567", "Test_5")
+test_new_user("1", "Test_5")
 
