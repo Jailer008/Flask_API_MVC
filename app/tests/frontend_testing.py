@@ -1,3 +1,6 @@
+import time
+from time import sleep
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -9,6 +12,7 @@ def test_user_name_display(user_id,name):
 
     try:
         # URL del usuario en la interfaz web
+
         url = f"http://127.0.0.1:5001/users/get_user_data/{user_id}"
 
         # Navegar a la URL
@@ -17,7 +21,7 @@ def test_user_name_display(user_id,name):
         # Esperar a que el elemento del nombre de usuario aparezca en la página
         user_name_element = driver.find_element(By.CLASS_NAME,
                                                 'name')  # Usa el localizador adecuado, como el class name
-
+        time.sleep(60)
         # Verificar que el elemento se muestra
         if user_name_element.is_displayed():
             print("El nombre de usuario está presente en la interfaz.")
