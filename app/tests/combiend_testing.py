@@ -1,8 +1,8 @@
 import requests
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from app.config import Config
 from app.db import get_db_connection
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
@@ -68,6 +68,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("1004", "ZCoin1")
+combined_testing("1005", "ZCoin1")
 
 
