@@ -104,7 +104,12 @@ pipeline {
         }
         stage('Run clean module') {
             steps {
-                echo "Hello ...."
+                echo "Running clean module"
+                sh'''
+                . .venv/bin/activate
+                cd app
+                python3 clean_environment.py
+                '''
             }
         }
     }
