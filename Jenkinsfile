@@ -118,7 +118,7 @@ pipeline {
             emailext(
                 subject:"Build failed",
                 body:"The build failed, check the logs for more details",
-                to:"jailer_fonseca@hotmail.com",
+                to:"englishjailerfonseca@gmail.com",
                 from:"fonsecaherrerajailer@gmail.com"
             )
         }
