@@ -113,12 +113,17 @@ pipeline {
             }
         }
     }
-    post{
-        failure{
+    post {
+        failure {
             emailext(
-                subject:"Build failed:${currentBuild.fullDisplayName}",
-                body:"The build failed, check the logs for more details",
-                to:"jailer_fonseca@hotmail.com"
+                subject: "Build failed: ${currentBuild.fullDisplayName}",
+                body: """
+                    <p>The build failed!</p>
+                    <p>Check the logs for details: ${BUILD_URL}</p>
+                """,
+                to: "jailer_fonseca@hotmail.com",
+                replyTo: "your_email@gmail.com",
+                from: "your_email@gmail.com"
             )
         }
     }
