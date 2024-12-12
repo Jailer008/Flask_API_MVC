@@ -104,7 +104,7 @@ pipeline {
         }
         stage('Run clean module') {
             steps {
-                echo "Running clean module"
+                ec "Running clean module"
                 sh'''
                 . .venv/bin/activate
                 cd app
