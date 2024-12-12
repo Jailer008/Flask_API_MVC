@@ -116,8 +116,8 @@ pipeline {
     post{
         failure{
             emailext(
-                subject:"Build failed:${currentBuild.fullDisplayName}"
-                body:"The build failed, check the logs for more details"
+                subject:"Build failed:${currentBuild.fullDisplayName}",
+                body:"The build failed, check the logs for more details",
                 to:"jailer_fonseca@hotmail.com"
             )
         }
