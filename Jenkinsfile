@@ -114,19 +114,18 @@ pipeline {
         }
     }
 post {
-    always {
-        script {
-            try {
-                emailext(
-                    subject: "Build failed",
-                    body: "Check the logs at ${BUILD_URL}",
-                    to: "englishjailerfonseca@gmail.com"
-                )
-                echo "Email sent successfully!"
-            } catch (Exception e) {
-                echo "Failed to send email: ${e.getMessage()}"
-            }
-        }
+    failure {
+        emailext(
+            subject: "Build failed: ${currentBuild.fullDisplayName}",
+            body: """
+                The build has failed.
+                Check the logs here: ${BUILD_URL}
+            """,
+            to: "englishjailerfonseca@gmail.com",
+            replyTo: "fonsecaherrerajailer@gmail.com",
+            from: "fonsecaherrerajailer@gmail.com"
+        )
     }
 }
+
 }
