@@ -68,6 +68,6 @@ def combined_testing(id_user, name_user):
 
 
 # Prueba del script
-combined_testing("1888", "ZCoin888")
+combined_testing("1787", "ZCoin8855")
 
 
