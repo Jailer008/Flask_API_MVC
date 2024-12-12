@@ -121,9 +121,7 @@ post {
                 The build has failed.
                 Check the logs here: ${BUILD_URL}
             """,
-            to: "englishjailerfonseca@gmail.com",
-            replyTo: "fonsecaherrerajailer@gmail.com",
-            from: "fonsecaherrerajailer@gmail.com"
+            to: "jailer_fonseca@hotmail.com"
         )
     }
 }
