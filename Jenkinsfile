@@ -2,10 +2,10 @@ pipeline {
     agent any
     options {
         buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '20'))
-        skipDefaultCheckout(true) // Skip default checkout if using explicit `checkout` step
+        skipDefaultCheckout(true)
     }
-    triggers {
-        pollSCM('* * * * *') // Poll every 1 minutes
+    parameters {
+        choice(name: 'TEST_MODE', choices: ['1', '2', '3'], description: 'Select test mode: 1 for Frontend, 2 for Backend, 3 for Combined')
     }
     stages {
         stage('Checkout') {
@@ -20,8 +20,8 @@ pipeline {
             }
         }
 
-        stage('Setup virtual environment'){
-            steps{
+        stage('Setup virtual environment') {
+            steps {
                 echo "Setting up virtual environment ...."
                 sh '''
                     python3 -m venv .venv
@@ -34,8 +34,8 @@ pipeline {
 
         stage('Install ChromeDriver') {
             steps {
+                echo "Installing ChromeDriver ...."
                 sh '''
-                # Extraer y mover al PATH
                     unzip chromedriver-linux64.zip
                     mkdir -p $WORKSPACE/bin
                     mv chromedriver-linux64/chromedriver $WORKSPACE/bin/
@@ -45,85 +45,64 @@ pipeline {
             }
         }
 
+        stage('Run Tests Based on TEST_MODE') {
+            steps {
+                script {
+                    echo "Selected TEST_MODE: ${params.TEST_MODE}"
+                    if (params.TEST_MODE == '1') {
+                        echo "Running Frontend Tests"
+                        sh '''
+                            . .venv/bin/activate
+                            cd app/tests/
+                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                            python3 frontend_testing.py > frontend_testing.log 2>&1
+                        '''
+                    } else if (params.TEST_MODE == '2') {
+                        echo "Running Backend Tests"
+                        sh '''
+                            . .venv/bin/activate
+                            cd app/tests/
+                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                            python3 backend_testing.py > backend_testing.log 2>&1
+                        '''
+                    } else if (params.TEST_MODE == '3') {
+                        echo "Running Combined Tests"
+                        sh '''
+                            . .venv/bin/activate
+                            cd app/tests/
+                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                            python3 combined_testing.py > combined_testing.log 2>&1
+                        '''
+                    } else {
+                        error("Invalid TEST_MODE selected: ${params.TEST_MODE}")
+                    }
+                }
+            }
+        }
 
-
-        stage('Run Backend server') {
+        stage('Cleanup') {
             steps {
-                echo "Starting backend server ...."
-                sh'''
-                    . .venv/bin/activate
-                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                    nohup python3 run.py > server_backend.log 2>&1 &
-                '''
-
-            }
-        }
-         stage('Run Frontend server') {
-            steps {
-                echo "Starting frontend server ...."
-                sh'''
-                    . .venv/bin/activate
-                    cd app/web/
-                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                    nohup   python3 web_api.py > server_frontend.log 2>&1 &
-                '''
-            }
-        }
-        stage('Run Backend Test') {
-            steps {
-                echo "Starting Backend Test ...."
-                    sh'''
-                        . .venv/bin/activate
-                        cd app/tests/
-                        export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                        python3 backend_testing.py > Backend_testing.log 2>&1 &
-                    '''
-            }
-        }
-        stage('Run Frontend Test') {
-            steps {
-                echo "Starting Frontend Test ...."
-                sh'''
-                    . .venv/bin/activate
-                    cd app/tests/
-                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                    python3 frontend_testing.py > frontend_testing.log 2>&1 &
-                '''
-            }
-        }
-        stage('Run Combine test') {
-            steps {
-                echo "Starting Combine test ...."
-                sh'''
-                    . .venv/bin/activate
-                    cd app/tests/
-                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                    python3 combiend_testing.py > combiend_testing.log 2>&1 &
-                '''
-            }
-        }
-        stage('Run clean module') {
-            steps {
-                echo "Running clean module"
-                sh'''
-                . .venv/bin/activate
-                cd app
-                python3 clean_environment.py
+                echo "Stopping background processes..."
+                sh '''
+                    pkill -f "python3 run.py"
+                    pkill -f "python3 web_api.py"
                 '''
             }
         }
     }
-post {
-    failure {
-        emailext(
-            subject: "Build failed: ${currentBuild.fullDisplayName}",
-            body: """
-                The build has failed.
-                Check the logs here: ${BUILD_URL}
-            """,
-            to: "jailer_fonseca@hotmail.com"
-        )
-    }
-}
 
+    post {
+        failure {
+            archiveArtifacts artifacts: '**/*.log', allowEmptyArchive: true
+            emailext(
+                subject: "Build failed: ${currentBuild.fullDisplayName}",
+                body: """
+                    The build has failed.
+                    Check the logs here: ${BUILD_URL}
+                    Logs are archived in the artifacts section.
+                """,
+                to: "jailer_fonseca@hotmail.com"
+            )
+        }
+    }
 }
