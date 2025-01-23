@@ -4,8 +4,8 @@ pipeline {
         buildDiscarder(logRotator(daysToKeepStr: '5', numToKeepStr: '20'))
         skipDefaultCheckout(true)
     }
-    parameters {
-        choice(name: 'TEST_MODE', choices: ['1', '2', '3'], description: 'Select test mode: 1 for Frontend, 2 for Backend, 3 for Combined')
+    triggers {
+        pollSCM('* * * * *') // Poll every 1 minutes
     }
     stages {
         stage('Checkout') {
