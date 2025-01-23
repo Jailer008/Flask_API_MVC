@@ -45,6 +45,30 @@ pipeline {
             }
         }
 
+        stage('Run Backend server') {
+            steps {
+                echo "Starting backend server ...."
+                sh'''
+                    . .venv/bin/activate
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                    nohup python3 run.py > server_backend.log 2>&1 &
+                '''
+
+            }
+        }
+
+         stage('Run Frontend server') {
+            steps {
+                echo "Starting frontend server ...."
+                sh'''
+                    . .venv/bin/activate
+                    cd app/web/
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                    nohup   python3 web_api.py > server_frontend.log 2>&1 &
+                '''
+            }
+        }
+
         stage('Run Tests Based on TEST_MODE') {
             steps {
                 script {
