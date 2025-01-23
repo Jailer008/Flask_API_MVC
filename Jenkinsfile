@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo "Installing ChromeDriver ...."
                 sh '''
-                    unzip chromedriver-linux64.zip -y
+                    unzip -o chromedriver-linux64.zip
                     mkdir -p $WORKSPACE/bin
                     mv chromedriver-linux64/chromedriver $WORKSPACE/bin/
                     chmod +x $WORKSPACE/bin/chromedriver
