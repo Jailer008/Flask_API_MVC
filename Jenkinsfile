@@ -12,7 +12,7 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/main']],
+                    branches: [[name: '*/docker-jenkins-integration']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/Jailer008/Flask_API_MVC'
                     ]]
@@ -69,38 +69,15 @@ pipeline {
             }
         }
 
-        stage('Run Tests Based on TEST_MODE') {
+        stage('Run Backend Tests') {
             steps {
-                script {
-                    echo "Selected TEST_MODE: ${params.TEST_MODE}"
-                    if (params.TEST_MODE == '1') {
-                        echo "Running Frontend Tests"
-                        sh '''
-                            . .venv/bin/activate
-                            cd app/tests/
-                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                            python3 frontend_testing.py > frontend_testing.log 2>&1
-                        '''
-                    } else if (params.TEST_MODE == '2') {
-                        echo "Running Backend Tests"
-                        sh '''
-                            . .venv/bin/activate
-                            cd app/tests/
-                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                            python3 backend_testing.py > backend_testing.log 2>&1
-                        '''
-                    } else if (params.TEST_MODE == '3') {
-                        echo "Running Combined Tests"
-                        sh '''
-                            . .venv/bin/activate
-                            cd app/tests/
-                            export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                            python3 combined_testing.py > combined_testing.log 2>&1
-                        '''
-                    } else {
-                        error("Invalid TEST_MODE selected: ${params.TEST_MODE}")
-                    }
-                }
+                echo "Running Backend Tests"
+                sh '''
+                    . .venv/bin/activate
+                    cd app/tests/
+                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
+                    python3 backend_testing.py > backend_testing.log 2>&1
+                '''
             }
         }
 
@@ -112,21 +89,6 @@ pipeline {
                     pkill -f "python3 web_api.py"
                 '''
             }
-        }
-    }
-
-    post {
-        failure {
-            archiveArtifacts artifacts: '**/*.log', allowEmptyArchive: true
-            emailext(
-                subject: "Build failed: ${currentBuild.fullDisplayName}",
-                body: """
-                    The build has failed.
-                    Check the logs here: ${BUILD_URL}
-                    Logs are archived in the artifacts section.
-                """,
-                to: "jailer_fonseca@hotmail.com"
-            )
         }
     }
 }
