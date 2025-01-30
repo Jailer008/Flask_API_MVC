@@ -86,7 +86,6 @@ pipeline {
                 echo "Stopping background processes..."
                 sh '''
                     pkill -f "python3 run.py"
-                    pkill -f "python3 web_api.py"
                 '''
             }
         }
