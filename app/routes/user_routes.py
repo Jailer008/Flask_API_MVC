@@ -1,10 +1,8 @@
-from crypt import methods
-
 from flask import Blueprint, request, jsonify
 from app.services.user_service import handle_get_user, handle_save_user, handle_update_user, handle_delete_user
 import os
+import datetime
 import signal
-
 user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route('/users/<user_id>', methods=['GET', 'POST', 'PUT', 'DELETE'])
@@ -50,6 +48,14 @@ def get_data(user_id):
             return jsonify({"status": "ok", "data": result}), 200
         else:
             return jsonify({"status": "error", "reason": "no such id"}), 500
+
+@user_bp.route('/name/<user_name>', methods=['GET'])
+def user_test(user_name):
+    now = str(datetime.datetime.now())
+    users_file = open("logs/users.txt", mode='a')
+    users_file.write(now + "  Nombre:" + user_name + "\n")
+    return {now: user_name}
+
 
 @user_bp.route('/stop_server',methods = ['GET'])
 def stop_server():

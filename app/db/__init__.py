@@ -2,6 +2,8 @@ import pymysql
 from app.config import Config
 
 def get_db_connection():
+
+    # Establish the database connection
     connection = pymysql.connect(
         host=Config.DB_HOST,
         user=Config.DB_USER,
