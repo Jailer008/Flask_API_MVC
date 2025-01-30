@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.git
+.idea
+.venv
+README.MD
+chromedriver-linux64.zip

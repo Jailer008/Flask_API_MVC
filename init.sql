@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS users (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(255) NULL,
+	creation_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+	email VARCHAR(255) NULL,
+	phone VARCHAR(15) NULL,
+	cell VARCHAR(15) NULL
+);
+INSERT INTO users
+(id, name, creation_date, email, phone, cell)
+VALUES(1, 'Test_5', '2024-11-29 08:04:32', 'user2568@example.com', '+1-9210213312', '+1-1346930208')
