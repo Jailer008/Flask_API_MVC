@@ -89,5 +89,72 @@ pipeline {
                 '''
             }
         }
+
+        stage('Build Docker Image') {
+            steps {
+                echo "Building Docker Image..."
+                sh '''
+                    docker build -t myflask .
+                    docker run -d --name my-flask -v $(pwd)/logs:/app/logs -p 5000:5000 myflask
+                '''
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                echo "Pushing Docker Image..."
+                sh '''
+                    docker login
+                    docker tag myflask:${BUILD_NUMBER} jailerfonseca08/myflask:${BUILD_NUMBER}
+                    docker push jailerfonseca08/myflask:${BUILD_NUMBER}
+                '''
+            }
+        }
+
+        stage('Clean Docker Image') {
+            steps {
+                echo "Cleaning Docker Image..."
+                sh '''
+                    docker kill myflask
+                    docker rm myflask
+                '''
+            }
+        }
+
+        stage('Set Image Version') {
+            steps {
+                echo "Setting Image Version..."
+                sh '''
+
+                '''
+            }
+        }
+
+        stage('Run Docker-compose') {
+            steps {
+                echo "Running Docker-compose..."
+                sh '''
+
+                '''
+            }
+        }
+
+        stage('Test dockerized app') {
+            steps {
+                echo "Testing dockerized app..."
+                sh '''
+
+                '''
+            }
+        }
+
+        stage('Clean docker-compose') {
+            steps {
+                echo "Cleaning docker-compose environment..."
+                sh '''
+
+                '''
+            }
+        }
     }
 }
