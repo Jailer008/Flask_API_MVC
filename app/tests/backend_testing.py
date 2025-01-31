@@ -1,4 +1,5 @@
 import requests
+import random
 from app.db import get_db_connection
 from app.config import Config
 
@@ -46,6 +47,7 @@ def test_new_user(id_user, name_user):
     except Exception as e:
         print(f"Error al consultar la base de datos: {e}")
 
+numero_aleatorio = str(random.randint(100, 999))
 # Prueba de la función
-test_new_user("464300", "Test_464300")
+test_new_user(numero_aleatorio, "Test_" + numero_aleatorio)
 
