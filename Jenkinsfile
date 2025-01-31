@@ -126,7 +126,7 @@ pipeline {
             steps {
                 echo "Setting Image Version..."
                 sh '''
-
+                    sed -i 's/^IMAGE_TAG=.*/IMAGE_TAG=${BUILD_NUMBER}/' .env
                 '''
             }
         }
@@ -135,7 +135,7 @@ pipeline {
             steps {
                 echo "Running Docker-compose..."
                 sh '''
-
+                    docker-compose up --build
                 '''
             }
         }
@@ -144,7 +144,8 @@ pipeline {
             steps {
                 echo "Testing dockerized app..."
                 sh '''
-
+                    docker exec -it flask-api sh
+                    python3 app/tests/backend_testing.py
                 '''
             }
         }
