@@ -94,10 +94,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker Image..."
-                sh """
+                sh '''
                     docker build -t myflask:${BUILD_NUMBER} .
                     docker run -d --name my-flask -v $(pwd)/logs:/app/logs -p 5000:5000 myflask:${BUILD_NUMBER}
-                """
+                '''
             }
         }
 
