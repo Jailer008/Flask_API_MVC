@@ -152,7 +152,10 @@ pipeline {
             steps {
                 echo "Cleaning docker-compose environment..."
                 sh '''
-
+                    docker kill flask-api
+                    docker kill mysql-container
+                    docker rm mysql-container
+                    docker rm flask-api
                 '''
             }
         }
