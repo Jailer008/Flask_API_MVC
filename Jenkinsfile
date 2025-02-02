@@ -105,7 +105,9 @@ pipeline {
             steps {
                 echo "Pushing Docker Image..."
                 sh '''
-
+                    docker login
+                    docker tag myflask:${BUILD_NUMBER} jailerfonseca08/myflask:${BUILD_NUMBER}
+                    docker push jailerfonseca08/myflask:${BUILD_NUMBER}
                 '''
             }
         }
