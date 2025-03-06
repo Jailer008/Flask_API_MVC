@@ -12,7 +12,7 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    branches: [[name: '*/docker-jenkins-integration']],
+                    branches: [[name: '*/jenkins-helm-integration']],
                     userRemoteConfigs: [[
                         url: 'https://github.com/Jailer008/Flask_API_MVC'
                     ]]
