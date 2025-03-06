@@ -32,18 +32,6 @@ pipeline {
             }
         }
 
-        stage('Install ChromeDriver') {
-            steps {
-                echo "Installing ChromeDriver ...."
-                sh '''
-                    unzip -o chromedriver-linux64.zip
-                    mkdir -p $WORKSPACE/bin
-                    mv chromedriver-linux64/chromedriver $WORKSPACE/bin/
-                    chmod +x $WORKSPACE/bin/chromedriver
-                    export PATH=$WORKSPACE/bin:$PATH
-                '''
-            }
-        }
 
         stage('Run Backend server') {
             steps {
@@ -54,18 +42,6 @@ pipeline {
                     nohup python3 run.py > server_backend.log 2>&1 &
                 '''
 
-            }
-        }
-
-         stage('Run Frontend server') {
-            steps {
-                echo "Starting frontend server ...."
-                sh'''
-                    . .venv/bin/activate
-                    cd app/web/
-                    export PYTHONPATH=$PYTHONPATH:${WORKSPACE}
-                    nohup   python3 web_api.py > server_frontend.log 2>&1 &
-                '''
             }
         }
 
@@ -86,7 +62,6 @@ pipeline {
                 echo "Stopping background processes..."
                 sh '''
                     pkill -f "python3 run.py"
-                    pkill -f "python3 web_api.py"
                 '''
             }
         }
@@ -112,15 +87,6 @@ pipeline {
             }
         }
 
-        stage('Clean Docker Image') {
-            steps {
-                echo "Cleaning Docker Image..."
-                sh '''
-                    docker kill my-flask
-                    docker rm my-flask
-                '''
-            }
-        }
 
         stage('Set Image Version') {
             steps {
@@ -130,7 +96,6 @@ pipeline {
                 """
             }
         }
-
 
         stage('Run Docker-compose') {
             steps {
