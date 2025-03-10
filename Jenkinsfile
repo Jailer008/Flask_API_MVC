@@ -71,7 +71,6 @@ pipeline {
                 echo "Building Docker Image..."
                 sh '''
                     docker build -t myflask:${BUILD_NUMBER} .
-                    docker run -d --name my-flask -v $(pwd)/logs:/app/logs -p 5000:5000 myflask:${BUILD_NUMBER}
                 '''
             }
         }
