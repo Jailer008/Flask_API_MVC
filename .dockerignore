@@ -5,6 +5,5 @@ __pycache__
 .Python
 .git
 .idea
-.venv
 README.MD
-chromedriver-linux64.zip
+

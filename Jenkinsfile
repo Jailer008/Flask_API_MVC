@@ -109,7 +109,7 @@ pipeline {
             steps {
                 echo "Testing dockerized app..."
                 sh '''
-                    docker exec flask-api python3 app/tests/backend_testing.py
+                    docker exec flask-api pytest app/tests/backend_testing.py
                 '''
             }
         }
