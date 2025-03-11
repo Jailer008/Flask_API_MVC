@@ -109,7 +109,7 @@ pipeline {
             steps {
                 echo "Testing dockerized app..."
                 sh '''
-                    sleep 30
+                    sleep 10
                     docker exec flask-api pytest app/tests/backend_testing.py
                 '''
             }
@@ -118,12 +118,17 @@ pipeline {
         stage('Clean docker-compose') {
             steps {
                 echo "Cleaning docker-compose environment..."
-                sh '''
+                sh """
                     docker kill flask-api
                     docker kill mysql-container
                     docker rm mysql-container
                     docker rm flask-api
-                '''
+                    docker rmi third-project_web
+                    docker rmi mysql:8.0
+                    docker rmi jailerfonseca08/myflask:${BUILD_NUMBER}
+                    docker rmi myflask:${BUILD_NUMBER}
+
+                """
             }
         }
     }
