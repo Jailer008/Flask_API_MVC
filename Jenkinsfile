@@ -69,20 +69,20 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "Building Docker Image..."
-                sh '''
+                sh """
                     docker build -t myflask:${BUILD_NUMBER} .
-                '''
+                """
             }
         }
 
         stage('Push Docker Image') {
             steps {
                 echo "Pushing Docker Image..."
-                sh '''
+                sh """
                     docker login
                     docker tag myflask:${BUILD_NUMBER} jailerfonseca08/myflask:${BUILD_NUMBER}
                     docker push jailerfonseca08/myflask:${BUILD_NUMBER}
-                '''
+                """
             }
         }
 
