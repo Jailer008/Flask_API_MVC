@@ -11,7 +11,7 @@ services:
     ports:
       - "3307:3306"
     networks:
-      - mynetwork
+      - my-network
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql
@@ -26,8 +26,8 @@ services:
     env_file:
       - .env
     networks:
-      - mynetwork
+      - my-network
 volumes:
   mysql-data:
 networks:
-  mynetwork:
+  my-network:
