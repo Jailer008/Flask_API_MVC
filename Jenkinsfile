@@ -109,6 +109,7 @@ pipeline {
             steps {
                 echo "Testing dockerized app..."
                 sh '''
+                    sh 'sleep 30'
                     docker exec flask-api pytest app/tests/backend_testing.py
                 '''
             }
