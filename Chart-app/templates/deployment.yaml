@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-flask
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-flask
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-flask
+    spec:
+      containers:
+      - name: flask-app
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DB_HOST
+          value: "{{ .Chart.Name }}-mysql-service"
+        - name: DB_USER
+          value: "{{ .Values.mysql.user }}"
+        - name: DB_PASSWORD
+          value: "{{ .Values.mysql.password }}"
+        - name: DB_NAME
+          value: "{{ .Values.mysql.database }}"

@@ -1,0 +1,18 @@
+replicaCount: 5
+
+image:
+  repository: jailerfonseca08/myflask
+  tag: 19
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 5000
+
+mysql:
+  image: mysql:8.0
+  rootPassword: root
+  database: mydb
+  user: user
+  password: x360
+  port: 3306
