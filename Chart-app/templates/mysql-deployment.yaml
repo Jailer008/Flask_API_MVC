@@ -26,3 +26,10 @@ spec:
           value: {{ .Values.mysql.password }}
         ports:
         - containerPort: {{ .Values.mysql.port }}
+        volumeMounts:
+        - name: mysql-init-script
+          mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+      - name: mysql-init-script
+        configMap:
+          name: mysql-init-script

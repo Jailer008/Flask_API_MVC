@@ -131,5 +131,16 @@ pipeline {
                 """
             }
         }
+
+        stage('Set Cluster on K8s') {
+            steps {
+                echo "Setting Cluster on K8s..."
+                sh '''
+                    helm install my-cluster Chart-app
+                '''
+            }
+        }
+
+
     }
 }
