@@ -136,7 +136,7 @@ pipeline {
             steps {
                 echo "Setting Cluster on K8s..."
                 sh """
-                    sed -i 's/version: [0-9]\\+/version: ${BUILD_NUMBER}/' Chart-app/values.yaml
+                    sed -i 's/version: [0-9]\\+/version: my_repo_${BUILD_NUMBER}/' Chart-app/values.yaml
                     cat Chart-app/values.yaml
                     helm install my-cluster Chart-app
                 """
