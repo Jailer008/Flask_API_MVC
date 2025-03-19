@@ -136,11 +136,12 @@ pipeline {
             steps {
                 echo "Setting Cluster on K8s..."
                 sh """
-                    helm install my-cluster Chart-app --set-string image.version=23
+                    sed -i 's/version: [0-9]\\+/version: ${BUILD_NUMBER}/' Chart-app/values.yaml
+                    cat Chart-app/values.yaml
+                    helm install my-cluster Chart-app
                 """
             }
         }
-
 
     }
 }
