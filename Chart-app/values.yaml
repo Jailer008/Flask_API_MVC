@@ -1,6 +1,7 @@
 replicaCount: 5
 
 image:
+  version: 1
   repository: jailerfonseca08/myflask
   tag: 19
   pullPolicy: IfNotPresent

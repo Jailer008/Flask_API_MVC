@@ -135,9 +135,9 @@ pipeline {
         stage('Set Cluster on K8s') {
             steps {
                 echo "Setting Cluster on K8s..."
-                sh '''
-                    helm install my-cluster Chart-app
-                '''
+                sh """
+                    helm install my-cluster Chart-app --set image.version="my_repo:${BUILD_NUMBER}"
+                """
             }
         }
 
