@@ -22,7 +22,7 @@ def test_backend(url):
         return
 
     # Endpoint de prueba (ajusta según tu API)
-    endpoint = "/users/501"  # Por ejemplo, para probar un endpoint de usuarios
+    endpoint = "/users/1"  # Por ejemplo, para probar un endpoint de usuarios
     full_url = f"{url}{endpoint}"
 
     print(f"Probando la API en: {full_url}")

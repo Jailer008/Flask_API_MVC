@@ -139,6 +139,34 @@ pipeline {
                     sed -i 's/version: [0-9]\\+/version: my_repo_${BUILD_NUMBER}/' Chart-app/values.yaml
                     cat Chart-app/values.yaml
                     helm install my-cluster Chart-app
+
+                """
+            }
+        }
+
+        stage('Set URL service') {
+            steps {
+                echo "Setting URL ..."
+                sh """
+                    minikube service my-app-flask-service --url > k8s_url.txt
+                """
+            }
+        }
+
+        stage('Set URL service') {
+            steps {
+                echo "Setting URL ..."
+                sh """
+                    python3 K8S_backend_testing.py
+                """
+            }
+        }
+
+        stage('Uninstall Cluster on K8s') {
+            steps {
+                echo "Uninstalling Cluster on K8s..."
+                sh """
+                    helm uninstall my-cluster
                 """
             }
         }
