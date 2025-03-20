@@ -139,7 +139,6 @@ pipeline {
                     sed -i 's/version: [0-9]\\+/version: my_repo_${BUILD_NUMBER}/' Chart-app/values.yaml
                     cat Chart-app/values.yaml
                     helm install my-cluster Chart-app
-                    sleep 10
                 """
             }
         }
@@ -148,6 +147,7 @@ pipeline {
             steps {
                 echo "Setting URL ..."
                 sh """
+                    sleep 10
                     minikube service my-app-flask-service --url > k8s_url.txt
                 """
             }
