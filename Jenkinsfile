@@ -149,6 +149,7 @@ pipeline {
                 echo "Setting URL ..."
                 sh """
                     minikube service my-app-flask-service --url > k8s_url.txt
+
                 """
             }
         }
