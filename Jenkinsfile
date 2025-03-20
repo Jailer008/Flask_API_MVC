@@ -153,23 +153,5 @@ pipeline {
             }
         }
 
-        stage('Set URL service') {
-            steps {
-                echo "Setting URL ..."
-                sh """
-                    python3 K8S_backend_testing.py
-                """
-            }
-        }
-
-        stage('Uninstall Cluster on K8s') {
-            steps {
-                echo "Uninstalling Cluster on K8s..."
-                sh """
-                    helm uninstall my-cluster
-                """
-            }
-        }
-
     }
 }
