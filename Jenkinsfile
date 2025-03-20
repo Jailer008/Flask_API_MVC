@@ -153,5 +153,23 @@ pipeline {
             }
         }
 
+        stage('Test K8s') {
+            steps {
+                echo "Testing URL K8s..."
+                sh """
+                    python3 K8S_backend_testing.py
+                """
+            }
+        }
+
+        stage('Uninstall k8s') {
+            steps {
+                echo "Uninstalling K8s..."
+                sh """
+                    helm uninstall my-cluster
+                """
+            }
+        }
+
     }
 }
